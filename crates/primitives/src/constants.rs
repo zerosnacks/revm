@@ -3,7 +3,7 @@
 //! Here you can find constants that dont belong to any EIP and are there for the genesis.
 
 use crate::eip170;
-use alloy_primitives::{b256, Address, B256};
+use alloy_primitives::{b256, Address, B256, KECCAK256_EMPTY as KECCAK_EMPTY};
 
 /// Number of block hashes that EVM can access in the past (pre-Prague)
 pub const BLOCK_HASH_HISTORY: u64 = 256;
@@ -22,7 +22,3 @@ pub const MAX_INITCODE_SIZE: usize = 2 * eip170::MAX_CODE_SIZE;
 
 /// EVM call stack limit
 pub const CALL_STACK_LIMIT: u64 = 1024;
-
-/// The Keccak-256 hash of the empty string `""`.
-pub const KECCAK_EMPTY: B256 =
-    b256!("0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470");
