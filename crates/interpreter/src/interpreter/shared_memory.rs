@@ -203,9 +203,13 @@ impl SharedMemory {
         println!("slice_range: {start}..{end}");
 
         match self.context_memory().get(range) {
-            Some(slice) => slice,
+            Some(slice) => {
+                println!("Some(memory): {:?}", self.context_memory());
+
+                slice
+            }
             None => {
-                println!("memory: {:?}", self.context_memory());
+                println!("None(memory): {:?}", self.context_memory());
                 println!("slice_range OOB: {start}..{end}");
 
                 &[0; 0][..]
