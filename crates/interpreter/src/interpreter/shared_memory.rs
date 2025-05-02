@@ -201,17 +201,12 @@ impl SharedMemory {
     #[cfg_attr(debug_assertions, track_caller)]
     pub fn slice_range(&self, range @ Range { start, end }: Range<usize>) -> &[u8] {
         println!("slice_range: {start}..{end}");
+        println!("memory: {:?}", self.context_memory());
 
         match self.context_memory().get(range) {
-            Some(slice) => {
-                println!("Some(memory): {:?}", self.context_memory());
-
-                slice
-            }
+            Some(slice) => slice,
             None => {
-                println!("None(memory): {:?}", self.context_memory());
                 println!("slice_range OOB: {start}..{end}");
-
                 &[0; 0][..]
             }
         }
@@ -226,9 +221,16 @@ impl SharedMemory {
     #[cfg_attr(debug_assertions, track_caller)]
     pub fn slice_mut(&mut self, offset: usize, size: usize) -> &mut [u8] {
         let end = offset + size;
+
+        println!("slice_mut: {offset}..{end}");
+        println!("memory: {:?}", self.context_memory_mut());
+
         match self.context_memory_mut().get_mut(offset..end) {
             Some(slice) => slice,
-            None => debug_unreachable!("slice OOB: {offset}..{end}"),
+            None => {
+                println!("slice_mut OOB: {offset}..{end}");
+                &mut [0; 0][..]
+            }
         }
     }
 
