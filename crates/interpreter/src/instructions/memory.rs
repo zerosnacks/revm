@@ -15,7 +15,16 @@ pub fn mload<WIRE: InterpreterTypes, H: Host + ?Sized>(
     popn_top!([], top, interpreter);
     let offset = as_usize_or_fail!(interpreter, top);
     resize_memory!(interpreter, offset, 32);
-    *top = U256::try_from_be_slice(interpreter.memory.slice_len(offset, 32).as_ref()).unwrap()
+
+    println!("mload offset: {offset}");
+
+    if let Some(value) = U256::try_from_be_slice(interpreter.memory.slice_len(offset, 32).as_ref())
+    {
+        println!("mload value: {value}");
+        *top = value;
+    } else {
+        *top = U256::from(0);
+    }
 }
 
 pub fn mstore<WIRE: InterpreterTypes, H: Host + ?Sized>(

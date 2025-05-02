@@ -145,6 +145,7 @@ where
         frame: Self::Frame,
     ) -> Result<FrameResult, Self::Error> {
         let mut frame_stack: Vec<Self::Frame> = vec![frame];
+
         loop {
             let frame = frame_stack.last_mut().unwrap();
             let call_or_result = self.inspect_frame_call(frame, evm)?;
