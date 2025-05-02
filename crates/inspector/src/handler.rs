@@ -249,6 +249,7 @@ pub fn frame_end<CTX, INTR: InterpreterTypes>(
 /// This function is used to inspect the Interpreter loop.
 /// It will call [`Inspector::step`] and [`Inspector::step_end`] after each instruction.
 /// And [`Inspector::log`],[`Inspector::selfdestruct`] for each log and selfdestruct instruction.
+#[cfg_attr(debug_assertions, track_caller)]
 pub fn inspect_instructions<CTX, IT>(
     context: &mut CTX,
     interpreter: &mut Interpreter<IT>,
@@ -266,6 +267,8 @@ where
     while interpreter.control.instruction_result().is_continue() {
         // Get current opcode.
         let opcode = interpreter.bytecode.opcode();
+
+        println!("Opcode: {opcode}");
 
         // Call Inspector step.
         inspector.step(interpreter, context);

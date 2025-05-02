@@ -200,6 +200,8 @@ impl SharedMemory {
     #[inline]
     #[cfg_attr(debug_assertions, track_caller)]
     pub fn slice_range(&self, range @ Range { start, end }: Range<usize>) -> &[u8] {
+        println!("slice_range: {start}..{end}");
+
         match self.context_memory().get(range) {
             Some(slice) => slice,
             None => debug_unreachable!("slice OOB: {start}..{end}; len: {}", self.len()),
